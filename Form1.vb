@@ -1,4 +1,6 @@
-﻿Public Class Form1
+﻿Imports Zoople
+
+Public Class Form1
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         Me.HtmlEditControl1.CSSText = "body {font-family: courier new} span.mention {color: green; font-weight: bold;} span.mention:before {content: '@'; } span.issuelink {color: blue; font-weight: bold;} span.issuelink:before {content: '#'; }"
@@ -85,4 +87,15 @@
 
     End Sub
 
+    Private Sub HtmlEditControl1_CancellableUserInteraction(sender As Object, e As CancellableUserInteractionEventsArgs) Handles HtmlEditControl1.CancellableUserInteraction
+
+        If e.InteractionType = Zoople.EditorUIEvents.ondblclick Then
+            Dim oElement = Me.HtmlEditControl1.FindParentElementOfType("span")
+
+            If oElement IsNot Nothing AndAlso oElement.GetAttribute("data-type") = "Markdown" Then
+                MsgBox(oElement.GetAttribute("ClassName"))
+            End If
+
+        End If
+    End Sub
 End Class
